@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "300103153124",
+    "project_id": "soicel-app-47106",
+    "storage_bucket": "soicel-app-47106.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300103153124:android:5860fceeace5ad795c43f1",
+        "android_client_info": {
+          "package_name": "com.example.news_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuskvjTjyHU1Rt14wib_D-Unidc6L4CdM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
