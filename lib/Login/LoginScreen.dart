@@ -9,15 +9,15 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../Networking/SharedPrefrance.dart';
 import '../Register/registScreen.dart';
 import '../ShopLayout/homeLayout.dart';
-import '../compnant.dart';
 import 'login_cubit.dart';
 
-class login extends StatelessWidget {
-  const login({super.key});
+class Login extends StatelessWidget {
+  const Login({super.key});
+  static String? tokenS;
 
   @override
   Widget build(BuildContext context) {
-    var FormKey = GlobalKey<FormState>();
+    var formKey = GlobalKey<FormState>();
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     var emailControllar = TextEditingController();
     var passwordControllar = TextEditingController();
@@ -30,7 +30,7 @@ class login extends StatelessWidget {
             if (state.model.status!) {
               print(state.model.message);
               ChachHelper.SetData(key: 'token', data: state.model.data!.token!)
-                  .then((value) => token = ChachHelper.getData(key: 'token'));
+                  .then((value) => tokenS = ChachHelper.getData(key: 'token'));
 
               print(ChachHelper.getData(key: 'token'));
               Fluttertoast.showToast(
@@ -63,7 +63,7 @@ class login extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(19),
                     child: Form(
-                      key: FormKey,
+                      key: formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -108,7 +108,7 @@ class login extends StatelessWidget {
                             controller: passwordControllar,
                             obscureText: LoginCubit.get(context).isPassword,
                             onFieldSubmitted: (value) {
-                              if (FormKey.currentState!.validate()) {
+                              if (formKey.currentState!.validate()) {
                                 LoginCubit.get(context).putData(
                                     email: emailControllar.text,
                                     password: passwordControllar.text);
@@ -152,7 +152,7 @@ class login extends StatelessWidget {
                                     padding: const EdgeInsets.all(5),
                                     child: MaterialButton(
                                       onPressed: () {
-                                        if (FormKey.currentState!.validate()) {
+                                        if (formKey.currentState!.validate()) {
                                           LoginCubit.get(context).putData(
                                               email: emailControllar.text,
                                               password:

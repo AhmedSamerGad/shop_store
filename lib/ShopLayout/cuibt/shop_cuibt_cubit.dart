@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/Login/LoginScreen.dart';
 
 import '../../Networking/Dio.dart';
-import '../../Networking/SharedPrefrance.dart';
 import '../CategoresScreen.dart';
 import '../Favorite/FavoriteGetModel.dart';
 import '../Favorite/FavoriteModel.dart';
@@ -16,7 +16,6 @@ import 'shop_cuibt_state.dart';
 class ShopCuibtCubit extends Cubit<ShopCuibtState> {
   ShopCuibtCubit() : super(ShopCuibtInitial());
   static ShopCuibtCubit get(context) => BlocProvider.of(context);
-  static String? tokeen = ChachHelper.getData(key: 'token');
 
   int currentIndx = 0;
   List<Widget> screens = [
@@ -24,7 +23,7 @@ class ShopCuibtCubit extends Cubit<ShopCuibtState> {
     const favorite_screen(),
     const categores_screen()
   ];
-  void ChangeNavBar(indx) {
+  void changeNavBar(indx) {
     currentIndx = indx;
     emit(ChangeNavigBottom());
   }
@@ -34,8 +33,8 @@ class ShopCuibtCubit extends Cubit<ShopCuibtState> {
   Future<void> getProductData() async {
     emit(ShopDataLoading());
     try {
-      final response =
-          await networkdata.getData(url: 'home', token: tokeen, lan: 'en');
+      final response = await networkdata.getData(
+          url: 'home', token: Login.tokenS, lan: 'en');
       prodectModel = ProdectModel.fromjson(response?.data);
 
       for (var element in prodectModel!.data!.products) {
@@ -48,7 +47,7 @@ class ShopCuibtCubit extends Cubit<ShopCuibtState> {
       emit(
           ShopDataSuccessud(products)); // Emit the state with the products list
     } catch (onError) {
-      print(onError.toString());
+      debugPrint(onError.toString());
       // Consider emitting an error state here
     }
   }
@@ -62,8 +61,10 @@ class ShopCuibtCubit extends Cubit<ShopCuibtState> {
         FavoriteButttonChange()); // Emit state to indicate change is in progress
 
     try {
-      final response = await networkdata.postData(
-          url: 'favorites', data: {'product_id': prodecutID}, token: tokeen);
+      await networkdata.postData(
+          url: 'favorites',
+          data: {'product_id': prodecutID},
+          token: Login.tokenS);
 
       if (favoriteModel!.status) {
         // Successful API call
@@ -89,12 +90,12 @@ class ShopCuibtCubit extends Cubit<ShopCuibtState> {
   Future<void> getFavoriteData() async {
     emit(Favorite_getData_loading()); // Emit loading state
     try {
-      final response =
-          await networkdata.getData(url: 'favorites', token: tokeen, lan: 'en');
+      final response = await networkdata.getData(
+          url: 'favorites', token: Login.tokenS, lan: 'en');
       favoriteGetModel = FavoriteGetModel.fromJson(response!.data);
       emit(Favorite_getData_successfuly()); // Emit success state
     } catch (onError) {
-      print(onError.toString());
+      debugPrint(onError.toString());
       emit(Favorite_getData_Error(onError)); // Emit error state
     }
   }

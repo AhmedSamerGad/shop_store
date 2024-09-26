@@ -35,7 +35,7 @@ class homeLayout extends StatelessWidget {
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: cubit.currentIndx,
               onTap: (index) {
-                cubit.ChangeNavBar(index);
+                cubit.changeNavBar(index);
               },
               items: const [
                 BottomNavigationBarItem(

@@ -5,19 +5,15 @@ import '../Networking/Dio.dart';
 import 'Networking/SharedPrefrance.dart';
 import 'ShopLayout/cuibt/shop_cuibt_cubit.dart';
 import 'ShopLayout/homeLayout.dart';
-import '../compnant.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   networkdata.init();
   await ChachHelper.init();
   Widget widget;
-  uid = ChachHelper.getData(key: 'uid');
-  if (token == null) {
-    widget = const login();
+  if (Login.tokenS == null) {
+    widget = const Login();
   } else {
-    token = ChachHelper.getData(key: 'token')!;
-    print(token);
     widget = const homeLayout();
   }
   runApp(MyApp(starwidget: widget));
@@ -49,7 +45,7 @@ class MyApp extends StatelessWidget {
                   fontSize: 15,
                 ))),
         debugShowCheckedModeBanner: false,
-        home: const login(),
+        home: starwidget,
       ),
     );
   }
